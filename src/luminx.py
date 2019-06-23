@@ -5,21 +5,18 @@ import numpy as np
 
 import imageio
 
-def translate_range(x,input_low, input_high, output_low, output_high):
-    return ((x - input_low) / (input_high - input_low)) * (output_high - output_low) + output_low
+def translate_format_range(x,input_low, input_high, output_low, output_high):
+    df = ((x - input_low) / (input_high - input_low)) * (output_high - output_low) + output_low
+    df.fillna(0,inplace=True)
+    df.round(2)
+    return df
 
 def from_formatted_to_colours(df):
     df.fillna(0, inplace=True)
     df = df.sort_index().pct_change()
     df.fillna(0, inplace=True)
-    blue_df  = pd.DataFrame(columns = df.columns, index = df.index)
-    red_df = pd.DataFrame(columns = df.columns, index = df.index)
-    red_df = translate_range(df[df < 0],df[df < 0].min(), df[df < 0].max(),0.0,255.0)
-    blue_df = translate_range(df[df >= 0] ,df[df >= 0].min(), df[df >= 0].max(),0.0,255.0)
-    red_df.fillna(0, inplace=True)
-    red_df.round(2)
-    blue_df.fillna(0, inplace=True)
-    blue_df.round(2)
+    red_df = translate_format_range(df[df < 0],df[df < 0].min(), df[df < 0].max(),0.0,255.0)
+    blue_df = translate_format_range(df[df >= 0] ,df[df >= 0].min(), df[df >= 0].max(),0.0,255.0)
     return (red_df, blue_df)
 
 def from_colours_to_screen(red_df, blue_df, name, size_led, space_led):
