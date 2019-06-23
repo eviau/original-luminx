@@ -7,14 +7,15 @@ from datetime import datetime
 from src import data_preprocess
 from src import luminx
 
-if __name__ == "__main__" :
+if __name__ == "__main__":
     # execute only if run as a script
     current_time = datetime.now().strftime("%Y_%M_%D_%h_%m_%s")
     mode = sys.argv[1]
     gif = sys.argv[2]
 
     if mode == '-fromweb':
-        pure_data = data_preprocess.import_from_the_web('2019-06-17','2019-06-19')
+        pure_data = data_preprocess.import_from_the_web(
+            '2019-06-17', '2019-06-19')
     elif (mode == '-fromcsv'):
         pure_data = data_preprocess.import_from_csv()
     else:

@@ -26,7 +26,7 @@ def from_formatted_to_colours(df):
     return data_pct
 
 
-def from_colours_to_screen(df,name):
+def from_colours_to_screen(df, name):
     w, h = (41*6+41*10), (16)
     data = np.zeros((h, w, 3), dtype=np.uint8)
     n = 3
