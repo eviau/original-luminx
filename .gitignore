@@ -5,3 +5,9 @@
 *.gif
 *.png
 .DS_Store
+
+
+__init__.py
+*.pyc
+
+__pycache__
