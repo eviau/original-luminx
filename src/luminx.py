@@ -5,37 +5,34 @@ import numpy as np
 
 import imageio
 
+def translate_range(x,input_low, input_high, output_low, output_high):
+    return ((x - input_low) / (input_high - input_low)) * (output_high - output_low) + output_low
 
 def from_formatted_to_colours(df):
     df.fillna(0, inplace=True)
-    actual_data = df
-    actual_data.set_index(pd.to_datetime(
-        actual_data.day_id, yearfirst=True), inplace=True)
-    actual_data.drop(['day_id'], axis=1, inplace=True)
-    act_dat = actual_data.sort_index().pct_change()
-    act_dat.fillna(0, inplace=True)
-    data_pct = act_dat
-    data_pct[data_pct >= 0] = (((data_pct[data_pct >= 0] - data_pct.min()) *
-                                ((255 - 127)/(data_pct.max() - 0)))+127)
-    data_pct[data_pct < 0] = (((data_pct[data_pct < 0] - data_pct.min()) *
-                               ((127 - 0)/(0 - data_pct.min()))))
-    data_pct.reset_index(inplace=True)
-    data_pct.drop(['day_id'], axis=1, inplace=True)
+    df = df.sort_index().pct_change()
+    df.fillna(0, inplace=True)
+    blue_df  = pd.DataFrame(columns = df.columns, index = df.index)
+    red_df = pd.DataFrame(columns = df.columns, index = df.index)
+    red_df = translate_range(df[df < 0],df[df < 0].min(), df[df < 0].max(),0.0,255.0)
+    blue_df = translate_range(df[df >= 0] ,df[df >= 0].min(), df[df >= 0].max(),0.0,255.0)
+    red_df.fillna(0, inplace=True)
+    red_df.round(2)
+    blue_df.fillna(0, inplace=True)
+    blue_df.round(2)
+    return (red_df, blue_df)
 
-    data_pct.round(2)
-    return data_pct
-
-
-def from_colours_to_screen(df, name):
-    w, h = (41*6+41*10), (16)
-    data = np.zeros((h, w, 3), dtype=np.uint8)
-    n = 3
+def from_colours_to_screen(red_df, blue_df, name, size_led, space_led):
+    width_strip = red_df.columns.shape[0]*(space_led*2+size_led)
+    height_strip = size_led + space_led*2
+    data = np.zeros((height_strip, width_strip, 3), dtype=np.uint8)
+    n = space_led
     frames = []
-    for m in range(0, df.shape[0]):
-        for col in df.columns:
-            data[3:13, n:(n+10)] = [df[col][m], 0, 0]
-            n = n + 16
+    for m in range(0, red_df.shape[0]):
+        for col in red_df.columns:
+            data[space_led:(size_led+space_led), n:(n+size_led)] = [red_df[col][m], 0, blue_df[col][m]]
+            n = n + space_led*2 + size_led
         img = Image.fromarray(data, 'RGB')
         frames.append(img)
-        n = 3
+        n = space_led
     imageio.mimsave(name + '.gif', frames)
