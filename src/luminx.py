@@ -5,19 +5,25 @@ import numpy as np
 
 import imageio
 
-def translate_format_range(x,input_low, input_high, output_low, output_high):
-    df = ((x - input_low) / (input_high - input_low)) * (output_high - output_low) + output_low
-    df.fillna(0,inplace=True)
+
+def translate_format_range(x, input_low, input_high, output_low, output_high):
+    df = ((x - input_low) / (input_high - input_low)) * \
+        (output_high - output_low) + output_low
+    df.fillna(0, inplace=True)
     df.round(2)
     return df
+
 
 def from_formatted_to_colours(df):
     df.fillna(0, inplace=True)
     df = df.sort_index().pct_change()
     df.fillna(0, inplace=True)
-    red_df = translate_format_range(df[df < 0],df[df < 0].min(), df[df < 0].max(),0.0,255.0)
-    blue_df = translate_format_range(df[df >= 0] ,df[df >= 0].min(), df[df >= 0].max(),0.0,255.0)
+    red_df = translate_format_range(
+        df[df < 0], df[df < 0].min(), df[df < 0].max(), 0.0, 255.0)
+    blue_df = translate_format_range(
+        df[df >= 0], df[df >= 0].min(), df[df >= 0].max(), 0.0, 255.0)
     return (red_df, blue_df)
+
 
 def from_colours_to_screen(red_df, blue_df, name, size_led, space_led):
     width_strip = red_df.columns.shape[0]*(space_led*2+size_led)
@@ -27,7 +33,8 @@ def from_colours_to_screen(red_df, blue_df, name, size_led, space_led):
     frames = []
     for m in range(0, red_df.shape[0]):
         for col in red_df.columns:
-            data[space_led:(size_led+space_led), n:(n+size_led)] = [red_df[col][m], 0, blue_df[col][m]]
+            data[space_led:(size_led+space_led), n:(n+size_led)
+                 ] = [red_df[col][m], 0, blue_df[col][m]]
             n = n + space_led*2 + size_led
         img = Image.fromarray(data, 'RGB')
         frames.append(img)

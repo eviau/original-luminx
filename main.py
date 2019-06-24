@@ -26,7 +26,8 @@ if __name__ == "__main__":
 
     if (gif == '-yesgif'):
         (red_df, blue_df) = luminx.from_formatted_to_colours(pure_data)
-        luminx.from_colours_to_screen(red_df, blue_df, name_movie,size_led = 20 , space_led = 3)
+        luminx.from_colours_to_screen(
+            red_df, blue_df, name_movie, size_led=20, space_led=3)
         print("A gif has been generated !")
     else:
         print('No gif is being generated.')

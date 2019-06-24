@@ -16,9 +16,9 @@ def import_from_the_web(start_date, end_date):
     df = pd.DataFrame.from_records(data["rates"]).T
     print(df)
     df.to_csv('./data/from' + start_date +
-                  '_to_' + end_date + '_formatted.csv')
+              '_to_' + end_date + '_formatted.csv')
 
 
 def import_from_csv(start_date, end_date):
     return pd.read_csv('./data/from' + start_date +
-                  '_to_' + end_date + '_formatted.csv', index_col=0)
+                       '_to_' + end_date + '_formatted.csv', index_col=0)
