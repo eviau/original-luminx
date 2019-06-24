@@ -1,4 +1,3 @@
-
 import sys
 
 import time
@@ -8,8 +7,7 @@ from src import data_preprocess
 from src import luminx
 
 if __name__ == "__main__":
-    # execute only if run as a script
-    current_time = datetime.now().strftime("%Y_%M_%D_%h_%m_%s")
+
     mode = sys.argv[1]
     gif = sys.argv[2]
     start_day = sys.argv[3]
