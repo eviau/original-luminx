@@ -8,6 +8,7 @@ from src import luminx
 
 if __name__ == "__main__":
 
+    # ici tu peux utiliser argparse pour lire les arguments: https://docs.python.org/3/library/argparse.html
     mode = sys.argv[1]
     gif = sys.argv[2]
     start_day = sys.argv[3]
@@ -21,7 +22,11 @@ if __name__ == "__main__":
         pure_data = data_preprocess.import_from_csv(start_day, end_day)
     else:
         print('Valid modes are: -fromweb and -fromcsv. Try again !')
-
+        # bug ici: il faut quitter la fonction! 
+        # tu peux utiliser sys.exit pour quitter le script entierement
+        # la convention sous Unix est de retourner un code d'erreur different de 0 quand le programme
+        # s'arrete avec une erreur, et 0 si tout va bien. Python va retourner 0 automatiquement.
+        # https://docs.python.org/3/library/argparse.html
     if (gif == '-yesgif'):
         (red_df, blue_df) = luminx.from_formatted_to_colours(pure_data)
         luminx.from_colours_to_screen(
