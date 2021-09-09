@@ -24,7 +24,8 @@ Chacune des LEDs diffuse l’information reliée à l’évolution temporelle d�
 finance et intelligence artificielle
 
 En tant que création humaine artificielle, la finance et sa concrétisation sous forme des marchés financiers peut être vu comme un algorithme de prise de décision automatique, d’autant plus que cet univers est fortement influencé par différents algorithmes mathématiques. Quel est le rôle de l’être humain dans cet univers abstrait où la prise de décision s’effectue à des vitesses toujours plus grandes ? Dans quelle mesure peut-on considérer que ces décisions sont libres plutôt que contraintes par les données et les algorithmes ? La finance serait-elle un exemple concret d’intelligence artificielle ?
-technicalités
+
+## technicalités
 
 L’oeuvre est réalisée à l’aide d’un ruban de lumières DEL individuellement adressables, connectée à un microcontrolleur Arduino. Les données sont tirées du site web de la Banque Centrale Européenne.
 

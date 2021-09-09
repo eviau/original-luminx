@@ -2,7 +2,6 @@
 *.vscode
 *.csv
 .vscode
-*.gif
 *.png
 .DS_Store
 
